@@ -1,0 +1,36 @@
+{
+    "Points": [
+        {
+            "PointType": 2,
+            "X": -228.5,
+            "Y": 226.5,
+            "TextFirst": "331",
+            "TextSecond": "Деканат ИИТ",
+            "TextThird": ""
+        },
+        {
+            "PointType": 1,
+            "X": -189.5,
+            "Y": -23.999969482421876,
+            "TextFirst": "Прикол",
+            "TextSecond": "Тут весело",
+            "TextThird": ""
+        },
+        {
+            "PointType": 3,
+            "X": -27.5,
+            "Y": 46.500030517578128,
+            "TextFirst": "Л-1",
+            "TextSecond": "Л-2",
+            "TextThird": ""
+        },
+        {
+            "PointType": 3,
+            "X": 208.0,
+            "Y": 171.00003051757813,
+            "TextFirst": "Л-2",
+            "TextSecond": "Л-1",
+            "TextThird": ""
+        }
+    ]
+}
