@@ -6,7 +6,7 @@ public class Interest : Point
 {
     public Interest(Vector3 position, Action<Point> action) : base(position, action) 
     { 
-        this.curProperties.PointType = 1;
+        this.curProperties.PointType = 2;
     }
 
     public Interest(PointProperties pointProperties, Action<Point> action) : base(pointProperties, action) { }

@@ -11,12 +11,10 @@ public class EditWindow : MonoBehaviour
     [SerializeField] public GameObject PopupInterest;
     [SerializeField] public GameObject PopupLadder;
     [SerializeField] public GameObject PathFinder;
+    [SerializeField] public Canvas PointsCanvas;
+    [SerializeField] public GameObject UserMenu; 
+    [SerializeField] public GameObject AdminMenu;
 
-
-    
-    private bool isCabinetButtonActive = false;
-    private bool isInterestButtonActive = false;
-    private bool isLadderButtonActive = false;
     private IOFileWork ioFile;
     private Point curPoint;
     private List<Point> points;
@@ -54,19 +52,32 @@ public class EditWindow : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Actives.floorSwitch)
+        {
+            points.ForEach(x => x.curButton.SetActive(true));
+            if (Actives.firstFloor)
+            {
+                points.Where(x => x.curProperties.Floor == 2).ToList().ForEach(x => x.curButton.SetActive(false));
+            }
+            else
+            {
+                points.Where(x => x.curProperties.Floor == 1).ToList().ForEach(x => x.curButton.SetActive(false));
+            }
+            Actives.floorSwitch = false;
+        }
+        if (Input.GetMouseButtonDown(0))
         {
             var pos = getPosition();
 
-            if(isCabinetButtonActive && !IsMouseOverUI())
+            if (Actives.isCabinetButtonActive && !IsMouseOverUI())
             {
                 AddPointToCanvas(new Cabinet(pos, OpenPopupCabinet));
             }
-            else if(isInterestButtonActive && !IsMouseOverUI())
+            else if(Actives.isInterestButtonActive && !IsMouseOverUI())
             {
                 AddPointToCanvas(new Interest(pos, OpenPopupInterest));
             }
-            else if(isLadderButtonActive && !IsMouseOverUI())
+            else if(Actives.isLadderButtonActive && !IsMouseOverUI())
             {
                 AddPointToCanvas(new Ladder(pos, OpenPopupLadder));
             }
@@ -88,11 +99,6 @@ public class EditWindow : MonoBehaviour
         }
     }
 
-    private void AddPointForDropDown(TMP_Dropdown dropdown)
-    {
-        
-    }
-
     private bool IsMouseOverUI()
     {
         return EventSystem.current.IsPointerOverGameObject();
@@ -100,34 +106,39 @@ public class EditWindow : MonoBehaviour
 
     private Vector3 getPosition()
     {
-        Vector3 pos = Input.mousePosition;
-        
-        pos.x -= Screen.width / 2;
-        pos.y -= Screen.height / 2;
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        return pos;
+        return mousePosition;
     }
 
     private void AddPointToCanvas(Point point)
     {
         var button = point.CreatePoint();
+        if (Actives.firstFloor) 
+        {
+            point.curProperties.Floor = 1;
+        }
+        else
+        {
+            point.curProperties.Floor = 2;
+        }
         points.Add(point);
-        button.transform.SetParent(transform, false);
+        button.transform.SetParent(PointsCanvas.transform, false);
     }
 
     public void CabinetPress()
     {
-        isCabinetButtonActive = !isCabinetButtonActive;
+        Actives.isCabinetButtonActive = !Actives.isCabinetButtonActive;
     }
 
     public void InterestPress()
     {
-        isInterestButtonActive = !isInterestButtonActive;
+        Actives.isInterestButtonActive = !Actives.isInterestButtonActive;
     }
 
     public void LadderPress()
     {
-        isLadderButtonActive = !isLadderButtonActive;
+        Actives.isLadderButtonActive = !Actives.isLadderButtonActive;
     }
 
     private void OpenPopupCabinet(Point point)
@@ -258,5 +269,17 @@ public class EditWindow : MonoBehaviour
         List<PointProperties> pointsProperties = new List<PointProperties>();
         points.ForEach(x => pointsProperties.Add(x.curProperties));
         ioFile.Write(pointsProperties);
+    }
+
+    public void CloseAdmin()
+    {
+        AdminMenu.SetActive(false);
+        UserMenu.SetActive(true);
+    }
+
+    public void OpenAdmin()
+    {
+        AdminMenu.SetActive(true);
+        UserMenu.SetActive(false);
     }
 }

@@ -3,7 +3,8 @@ using System;
 [Serializable]
 public class PointProperties
 {
-    public int Id ;
+    public int Id;
+    public int Floor;
     public int PointType;
     public float X;
     public float Y;

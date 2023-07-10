@@ -6,7 +6,7 @@ public class Cabinet : Point
 {
     public Cabinet(Vector3 position, Action<Point> action) : base(position, action) 
     { 
-        this.curProperties.PointType = 2;
+        this.curProperties.PointType = 1;
     }
 
     public Cabinet(PointProperties pointProperties, Action<Point> action) : base(pointProperties, action) { }
